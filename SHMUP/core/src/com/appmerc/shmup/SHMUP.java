@@ -8,25 +8,29 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class SHMUP extends ApplicationAdapter {
-	SpriteBatch batch;
+	public static SpriteBatch batch;
 	Texture img;
 	TestAI[] tai;
-	Shooter dummy;
+	Player dummy;
+	public static Controller controller;
 	int numOfAI = 2;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		dummy = new Shooter();
+
+		controller = new Controller();
+
+		dummy = new Player();
 		dummy.init();
-		dummy.pos = new Vector2(500,500);
+		dummy.shooter.pos = new Vector2(500,500);
 
 		tai = new TestAI[numOfAI];
 		for (int i = 0; i < numOfAI; i++)
 		{
 			tai[i] = new TestAI();
 			tai[i].init();
-			tai[i].setTarget(dummy);
+			tai[i].setTarget(dummy.shooter);
 		}
 		tai[0].basicShooter.pos.add(64, 64);
 		tai[1].basicShooter.pos.add(64, 564);
@@ -42,6 +46,8 @@ public class SHMUP extends ApplicationAdapter {
 		renderDummy();
 
 		batch.end();
+
+		controller.draw();
 	}
 
 	public void renderShooter(Shooter s)
@@ -70,7 +76,8 @@ public class SHMUP extends ApplicationAdapter {
 
 	public void renderDummy()
 	{
-		renderShooter(dummy);
+		dummy.update(Gdx.graphics.getDeltaTime());
+		renderShooter(dummy.shooter);
 	}
 
 	@Override
