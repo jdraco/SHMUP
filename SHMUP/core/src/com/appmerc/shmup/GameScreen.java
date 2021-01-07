@@ -26,7 +26,8 @@ class GameScreen implements Screen
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT = 128;
 
-    GameScreen() {
+    GameScreen()
+    {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 

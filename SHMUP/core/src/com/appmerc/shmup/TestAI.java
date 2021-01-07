@@ -12,7 +12,6 @@ public class TestAI {
 
     public void init()
     {
-        active = true;
         basicShooter = new Shooter();
         basicShooter.init();
         stats = new Stats();
@@ -20,12 +19,27 @@ public class TestAI {
         targetShooter = null;
         cooldown = 1.0f;
         cdTimer = cooldown;
+        active = false;
     }
 
-    public void update(float dt)
+    public void Respawn()
     {
+        stats.init();
+        cooldown = 1.f;
+        cdTimer = cooldown;
+        active = true;
+    }
+
+    public void update(float dt, EnemyManager em)
+    {
+		if (!active)
+            return;
+
         if(stats.health <= 0)
+        {
             active = false;
+            --em.curEnemyCount;
+        }
 
         if(targetShooter != null)
         {
@@ -36,7 +50,9 @@ public class TestAI {
                 cdTimer = cooldown;
             }
         }
+		
         basicShooter.update(dt);
+		
         for (int i = 0; i < 128; i++) {
             if(basicShooter.bullets[i].active)
             {

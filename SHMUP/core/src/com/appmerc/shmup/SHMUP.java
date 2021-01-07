@@ -12,16 +12,19 @@ public class SHMUP extends Game
 	GameScreen gameScreen;
 	public static SpriteBatch batch;
 	Texture img;
-	public static TestAI[] tai;
+	//public static TestAI[] tai;
 	Player dummy;
 	public static Controller controller;
-	int numOfAI = 2;
+	public static EnemyManager enemyManager;
+	//int numOfAI = 2;
 
 	@Override
 	public void create ()
 	{
 		gameScreen = new GameScreen();
 		setScreen(gameScreen);
+
+		enemyManager = new EnemyManager();
 
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
@@ -32,15 +35,18 @@ public class SHMUP extends Game
 		dummy.init();
 		dummy.shooter.pos = new Vector2(500,500);
 
-		tai = new TestAI[numOfAI];
+		/*tai = new TestAI[numOfAI];
 		for (int i = 0; i < numOfAI; i++)
 		{
 			tai[i] = new TestAI();
 			tai[i].init();
 			tai[i].setTarget(dummy.shooter);
-		}
-		tai[0].basicShooter.pos.add(64, 64);
-		tai[1].basicShooter.pos.add(64, 564);
+		}*/
+
+		enemyManager.Init(dummy);
+
+		/*tai[0].basicShooter.pos.add(64, 64);
+		tai[1].basicShooter.pos.add(64, 564);*/
 	}
 
 	@Override
@@ -78,12 +84,20 @@ public class SHMUP extends Game
 
 	public void renderAI()
 	{
-		for (int i = 0; i < numOfAI; i++) {
+		/*for (int i = 0; i < numOfAI; i++) {
 			if(tai[i].active)
 			{
 				tai[i].update(Gdx.graphics.getDeltaTime());
 				renderShooter(tai[i].basicShooter);
 			}
+		}*/
+
+		enemyManager.Update();
+
+		for (int i = 0; i < enemyManager.maxEnemyCount; i++)
+		{
+			if (enemyManager.enemies[i].active)
+				renderShooter(enemyManager.enemies[i].basicShooter);
 		}
 	}
 
