@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player {
     Shooter shooter;
+    Stats stats;
     Vector2 dir;
     float speed;
     float cooldown;
@@ -14,6 +15,8 @@ public class Player {
         dir = new Vector2(-1,0);
         shooter = new Shooter();
         shooter.init();
+        stats = new Stats();
+        stats.init();
         speed = 1000.0f;
         cooldown = 1.0f;
         cdTimer = cooldown;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 public class TestAI {
     Shooter basicShooter;
     Shooter targetShooter;
+    Stats stats;
     float cooldown;
     float cdTimer;
 
@@ -12,6 +13,8 @@ public class TestAI {
     {
         basicShooter = new Shooter();
         basicShooter.init();
+        stats = new Stats();
+        stats.init();
         targetShooter = null;
         cooldown = 1.0f;
         cdTimer = cooldown;

@@ -70,8 +70,11 @@ public class Controller {
 
         Gdx.input.setInputProcessor(stage);
 
-        Table table = new Table();
-        table.left().bottom();
+        Table dpadtable = new Table();
+        dpadtable.left().bottom();
+
+        Table shoottable = new Table();
+        shoottable.left().bottom();
 
         Image upImg = new Image(new Texture("flatDark25.png"));
         upImg.setSize(150, 150);
@@ -138,6 +141,7 @@ public class Controller {
         });
 
         Image shootImg = new Image(new Texture("Shoot.png"));
+        shootImg.rotateBy(90);
         shootImg.setSize(150, 150);
         shootImg.addListener(new InputListener() {
 
@@ -153,21 +157,25 @@ public class Controller {
             }
         });
 
-        table.add();
-        table.add(upImg).size(upImg.getWidth(), upImg.getHeight());
-        table.add();
-        table.row().pad(5, 5, 5, 5);
-        table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
-        table.add();
-        table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
-        table.row().padBottom(5);
-        table.add();
-        table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
-        table.add();
-        table.add(shootImg).size(shootImg.getWidth(), shootImg.getHeight());
-        table.add();
+        dpadtable.setPosition(1400,60);
+        dpadtable.add();
+        dpadtable.add(upImg).size(upImg.getWidth(), upImg.getHeight());
+        dpadtable.add();
+        dpadtable.row().pad(5, 5, 5, 5);
+        dpadtable.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
+        dpadtable.add();
+        dpadtable.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
+        dpadtable.row().padBottom(5);
+        dpadtable.add();
+        dpadtable.add(downImg).size(downImg.getWidth(), downImg.getHeight());
+        dpadtable.add();
 
-        stage.addActor(table);
+        stage.addActor(dpadtable);
+
+        shoottable.setPosition(1720,840);
+        shoottable.add(shootImg).size(shootImg.getWidth(), shootImg.getHeight());
+
+        stage.addActor(shoottable);
     }
 
     public void draw(){
