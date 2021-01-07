@@ -29,8 +29,16 @@ public class Bullet {
             fdir.mulAdd(fdir, dt);
             pos.add(fdir);
         }
-
         //if out of screen active = false;
+    }
+
+    public boolean checkAABB(Vector2 targetPos, Vector2 targetSize)
+    {
+        if(AABB.AABBCheck(targetPos,targetSize,pos,size))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void draw(SpriteBatch batch, Texture img)

@@ -3,14 +3,16 @@ package com.appmerc.shmup;
 import com.badlogic.gdx.Gdx;
 
 public class TestAI {
-    Shooter basicShooter;
+    public Shooter basicShooter;
+    public boolean active;
     Shooter targetShooter;
-    Stats stats;
+    public Stats stats;
     float cooldown;
     float cdTimer;
 
     public void init()
     {
+        active = true;
         basicShooter = new Shooter();
         basicShooter.init();
         stats = new Stats();
@@ -22,6 +24,9 @@ public class TestAI {
 
     public void update(float dt)
     {
+        if(stats.health <= 0)
+            active = false;
+
         if(targetShooter != null)
         {
             cdTimer -= dt;
@@ -32,6 +37,16 @@ public class TestAI {
             }
         }
         basicShooter.update(dt);
+        for (int i = 0; i < 128; i++) {
+            if(basicShooter.bullets[i].active)
+            {
+                if(basicShooter.bullets[i].checkAABB(Player.shooter.pos, Player.shooter.size))
+                {
+                    Player.stats.health -= stats.damage;
+                    basicShooter.bullets[i].active = false;
+                }
+            }
+        }
     }
 
     public void setTarget(Shooter toShoot)

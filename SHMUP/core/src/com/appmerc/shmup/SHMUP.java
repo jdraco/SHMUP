@@ -12,7 +12,7 @@ public class SHMUP extends Game
 	GameScreen gameScreen;
 	public static SpriteBatch batch;
 	Texture img;
-	TestAI[] tai;
+	public static TestAI[] tai;
 	Player dummy;
 	public static Controller controller;
 	int numOfAI = 2;
@@ -79,8 +79,11 @@ public class SHMUP extends Game
 	public void renderAI()
 	{
 		for (int i = 0; i < numOfAI; i++) {
-			tai[i].update(Gdx.graphics.getDeltaTime());
-			renderShooter(tai[i].basicShooter);
+			if(tai[i].active)
+			{
+				tai[i].update(Gdx.graphics.getDeltaTime());
+				renderShooter(tai[i].basicShooter);
+			}
 		}
 	}
 

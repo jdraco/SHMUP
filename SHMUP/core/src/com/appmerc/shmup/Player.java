@@ -3,8 +3,8 @@ package com.appmerc.shmup;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player {
-    Shooter shooter;
-    Stats stats;
+    public static Shooter shooter;
+    public static Stats stats;
     Vector2 dir;
     float speed;
     float cooldown;
@@ -49,6 +49,24 @@ public class Player {
         }
         cdTimer -= dt;
         shooter.update(dt);
+
+        for (int i = 0; i < 128; i++) {
+            for(int j = 0; j < SHMUP.tai.length; j++)
+            {
+                if(shooter.bullets[i].active)
+                {
+                    if(shooter.bullets[i].checkAABB(
+                            SHMUP.tai[j].basicShooter.pos,
+                            SHMUP.tai[j].basicShooter.size)
+                    )
+                    {
+                        SHMUP.tai[j].stats.health -= stats.damage;
+                        shooter.bullets[i].active = false;
+                        continue;
+                    }
+                }
+            }
+        }
     }
 
 }
