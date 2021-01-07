@@ -22,6 +22,7 @@ public class Player {
         cdTimer = cooldown;
     }
     public void update(float dt){
+
         if(SHMUP.controller.isRightPressed())
         {
             shooter.pos.x+= speed * dt;

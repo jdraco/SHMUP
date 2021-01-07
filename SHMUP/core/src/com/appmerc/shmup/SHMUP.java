@@ -12,9 +12,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SHMUP extends Game
 {
-	GameScreen gameScreen;
+	public static GameScreen gameScreen;
 	public static SpriteBatch batch;
-	Texture img;
+	public static Texture img;
 
 	public static Viewport viewport;
 	public static OrthographicCamera cam;
@@ -22,7 +22,7 @@ public class SHMUP extends Game
 
 	public static Statistics statistics;
 
-	Player dummy;
+	public static Player dummy;
 	public static Controller controller;
 	public static EnemyManager enemyManager;
 
@@ -122,12 +122,21 @@ public class SHMUP extends Game
 	{
 		dummy.update(Gdx.graphics.getDeltaTime());
 		renderShooter(dummy.shooter);
+
+		if(dummy.stats.health <= 0)
+		{
+			restart();
+		}
 	}
 
 	public void restart()
 	{
-		dispose ();
-		create ();
+		statistics.publishResult();
+		Player.stats.health = 100;
+		//gameScreen.dispose();
+		//batch.dispose();
+		//img.dispose();
+		//create();
 	}
 
 	@Override
