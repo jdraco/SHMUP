@@ -17,15 +17,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Created by brentaureli on 10/23/15.
  */
 public class Controller {
-    Viewport viewport;
     Stage stage;
     boolean upPressed, downPressed, leftPressed, rightPressed, shootPressed;
-    OrthographicCamera cam;
+
 
     public Controller(){
-        cam = new OrthographicCamera();
-        viewport = new FitViewport(1920, 1080, cam);
-        stage = new Stage(viewport, SHMUP.batch);
+
+        stage = new Stage(SHMUP.viewport, SHMUP.batch);
 
         stage.addListener(new InputListener(){
 
@@ -141,7 +139,6 @@ public class Controller {
         });
 
         Image shootImg = new Image(new Texture("Shoot.png"));
-        shootImg.rotateBy(90);
         shootImg.setSize(150, 150);
         shootImg.addListener(new InputListener() {
 
@@ -157,7 +154,7 @@ public class Controller {
             }
         });
 
-        dpadtable.setPosition(1400,60);
+        dpadtable.setPosition(40,80);
         dpadtable.add();
         dpadtable.add(upImg).size(upImg.getWidth(), upImg.getHeight());
         dpadtable.add();
@@ -172,7 +169,7 @@ public class Controller {
 
         stage.addActor(dpadtable);
 
-        shoottable.setPosition(1720,840);
+        shoottable.setPosition(880,240);
         shoottable.add(shootImg).size(shootImg.getWidth(), shootImg.getHeight());
 
         stage.addActor(shoottable);

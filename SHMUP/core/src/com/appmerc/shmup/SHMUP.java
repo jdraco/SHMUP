@@ -3,28 +3,43 @@ package com.appmerc.shmup;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SHMUP extends Game
 {
 	GameScreen gameScreen;
 	public static SpriteBatch batch;
 	Texture img;
-	//public static TestAI[] tai;
+
+	public static Viewport viewport;
+	public static OrthographicCamera cam;
+	public static UI ui;
+
+	public static Statistics statistics;
+
 	Player dummy;
 	public static Controller controller;
 	public static EnemyManager enemyManager;
-	//int numOfAI = 2;
 
 	@Override
 	public void create ()
 	{
+		cam = new OrthographicCamera();
+		viewport = new FitViewport(1080, 1920, cam);
 		gameScreen = new GameScreen();
 		setScreen(gameScreen);
 
+		statistics = new Statistics();
+		statistics.init();
+
 		enemyManager = new EnemyManager();
+		ui = new UI();
+		ui.init();
 
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
@@ -62,6 +77,8 @@ public class SHMUP extends Game
 		renderDummy();
 
 		batch.end();
+
+		ui.draw(batch);
 
 		controller.draw();
 	}
@@ -105,6 +122,12 @@ public class SHMUP extends Game
 	{
 		dummy.update(Gdx.graphics.getDeltaTime());
 		renderShooter(dummy.shooter);
+	}
+
+	public void restart()
+	{
+		dispose ();
+		create ();
 	}
 
 	@Override

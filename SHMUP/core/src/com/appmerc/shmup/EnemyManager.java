@@ -36,8 +36,8 @@ public class EnemyManager
             if (!e.active)
             {
                 e.Respawn();
-                e.basicShooter.pos.x = 0;
-                e.basicShooter.pos.y = random.nextInt(512);
+                e.basicShooter.pos.y = 1800;// top of screen
+                e.basicShooter.pos.x = random.nextInt(1024);
                 ++curEnemyCount;
                 break;
             }

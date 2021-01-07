@@ -12,7 +12,7 @@ public class Player {
 
     public void init()
     {
-        dir = new Vector2(-1,0);
+        dir = new Vector2(0,1);
         shooter = new Shooter();
         shooter.init();
         stats = new Stats();

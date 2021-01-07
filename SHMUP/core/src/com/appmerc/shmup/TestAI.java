@@ -38,6 +38,7 @@ public class TestAI {
         if(stats.health <= 0)
         {
             active = false;
+            Statistics.score += 50;
             --em.curEnemyCount;
         }
 
