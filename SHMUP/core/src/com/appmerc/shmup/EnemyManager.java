@@ -6,6 +6,12 @@ import java.util.Random;
 
 public class EnemyManager
 {
+    public enum E_ENEMY_TYPE
+    {
+        STANDARD,
+        KAMIKAZE
+    }
+
     private static float spawnTimer = 0.f;
     private final float nextEnemySpawnTime = 2.f;
     public static int curEnemyCount = 0;
@@ -21,37 +27,58 @@ public class EnemyManager
     {
         for (int i = 0; i < enemies.length; i++)
         {
-            enemies[i] = new TestAI();
-            enemies[i].init();
+            //enemies[i] = new TestAI();
+            RandomizeType(i);
+            enemies[i].active = false;
             enemies[i].setTarget(dummy.shooter);
         }
     }
 
-    private void SpawnRandomEnemy()
+    private void RandomizeType(int i)
+    {
+        Random random = new Random();
+        int randType = random.nextInt(E_ENEMY_TYPE.values().length);
+
+        switch (randType)
+        {
+            case 0:
+                enemies[i] = new TestAI();
+                break;
+
+            case 1:
+                enemies[i] = new MovingEnemy();
+                break;
+        }
+
+        enemies[i].init();
+    }
+
+    private void SpawnRandomEnemy(Player dummy)
     {
         Random random = new Random();
 
-        for (TestAI e : enemies)
+        for (int i = 0; i < enemies.length; ++i)
         {
-            if (!e.active)
+            if (!enemies[i].active)
             {
-                e.Respawn();
-                e.basicShooter.pos.y = 1800;// top of screen
-                e.basicShooter.pos.x = random.nextInt(1024);
+                RandomizeType(i);
+                enemies[i].setTarget(dummy.shooter);
+                enemies[i].basicShooter.pos.y = 1800;// top of screen
+                enemies[i].basicShooter.pos.x = random.nextInt(1024);
                 ++curEnemyCount;
                 break;
             }
         }
     }
 
-    public void Update()
+    public void Update(Player dummy)
     {
         if (curEnemyCount < maxEnemyCount)
             spawnTimer += Gdx.graphics.getDeltaTime();
 
         if (spawnTimer >= nextEnemySpawnTime && curEnemyCount < maxEnemyCount)
         {
-            SpawnRandomEnemy();
+            SpawnRandomEnemy(dummy);
             spawnTimer = 0.f;
         }
 

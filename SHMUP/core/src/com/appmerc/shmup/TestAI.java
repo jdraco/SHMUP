@@ -2,7 +2,8 @@ package com.appmerc.shmup;
 
 import com.badlogic.gdx.Gdx;
 
-public class TestAI {
+public class TestAI
+{
     public Shooter basicShooter;
     public boolean active;
     Shooter targetShooter;
@@ -19,32 +20,33 @@ public class TestAI {
         targetShooter = null;
         cooldown = 1.0f;
         cdTimer = cooldown;
-        active = false;
-    }
-
-    public void Respawn()
-    {
-        stats.init();
-        cooldown = 1.f;
-        cdTimer = cooldown;
         active = true;
     }
 
-    public void update(float dt, EnemyManager em)
+    protected void CheckHealth(EnemyManager em)
     {
-		if (!active)
-            return;
-
-        if(stats.health <= 0)
+        // If health < 0, this enemy is destroyed
+        if (stats.health <= 0)
         {
             active = false;
             Statistics.score += 50;
             --em.curEnemyCount;
         }
+    }
 
-        if(targetShooter != null)
+    public void update(float dt, EnemyManager em)
+    {
+        // If inactive, do not update anything
+		if (!active)
+            return;
+
+        CheckHealth(em);
+
+        // If there is a set target, fire at it
+        if (targetShooter != null)
         {
             cdTimer -= dt;
+
             if(cdTimer <= 0)
             {
                 basicShooter.shootBullet(basicShooter.getDirection(targetShooter));
@@ -54,7 +56,8 @@ public class TestAI {
 		
         basicShooter.update(dt);
 		
-        for (int i = 0; i < 128; i++) {
+        for (int i = 0; i < 128; i++)
+        {
             if(basicShooter.bullets[i].active)
             {
                 if(basicShooter.bullets[i].checkAABB(Player.shooter.pos, Player.shooter.size))
